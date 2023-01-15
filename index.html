@@ -36,9 +36,16 @@
         }
     }"> 
     <input x-model="filter" placeholder="Search..."/>
+    <h2>Wishlist</h2>
     <template x-for="wishlistItem in $store.data.wishlist">
         <div>
             <p x-text="wishlistItem.title"></p>
+        </div>
+    </template>
+    <h2>Basket</h2>
+    <template x-for="basketItem in $store.data.basket">
+        <div>
+            <p x-text="basketItem.title"></p>
         </div>
     </template>
     <!-- <button @click="$store.data.addToWishlist()">add to wishlist</button> -->
@@ -49,6 +56,8 @@
             <p x-text="product.description"></p>
             <p><span x-text="product.price"></span>€</p>
             <button @click="$store.data.addToWishlist(product)">add to Wishlist</button>
+            <button @click="$store.data.addToBasket(product)">add to Basket</button>
+            <button @click="$store.data.removeFromBasket(product)">remove from Basket</button>
     </div>
     </template>
     </div>

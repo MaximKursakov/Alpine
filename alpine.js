@@ -3,8 +3,23 @@ document.addEventListener('alpine:init', () => {
         path: "./src/images/",
         wishlist: [],
         addToWishlist(item) {
+            if(!this.wishlist.includes(item)) {
             this.wishlist.push(item);
-          },
+        }
+        },
+        basket: [],
+        addToBasket(item) {
+            this.basket.push(item);
+        },
+        removeFromBasket(item) {
+            for(let i = 0; i <= this.basket.length; i++) {
+                console.log(item.title === this.basket[i].title)
+                if (item.title === this.basket[i].title) {
+                    this.basket.splice(i, 1);
+                    break;
+                }
+            }
+        },
         products: [{
             title: "Vitamin B Creme",
             img: `Product1.png`,
