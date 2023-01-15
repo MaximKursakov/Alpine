@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/alpinejs" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./alpine.js"></script>
     <title>Alpine</title>
 </head>
 <body>
@@ -16,8 +17,8 @@
             <div class="w-8 h-0.5 bg-gray-600"></div>
             <div class="w-8 h-0.5 bg-gray-600"></div>
         </div>
-        <ol @click.outside="modal = false" x-cloak x-show="modal">
-            <li @click="modal = false">X</li>
+        <ol @click.outside="modal = false" x-cloak x-show="modal" :class="modal ? style : '' ">
+            <li @click="modal = false" >X</li>
             <li>test1</li>
             <li>test2</li>
             <li>test3</li>
@@ -35,8 +36,21 @@
         }
     }"> 
     <input x-model="filter" placeholder="Search..."/>
-    <p>Your Searched Item: <span x-text="filterCategory"></span></p>
-    <button @click="counter++">next filter</button>
+    <template x-for="wishlistItem in $store.data.wishlist">
+        <div>
+            <p x-text="wishlistItem.title"></p>
+        </div>
+    </template>
+    <!-- <button @click="$store.data.addToWishlist()">add to wishlist</button> -->
+    <template x-for="product in $store.data.products">
+        <div>
+            <img x-bind:src="`./src/images/${product.img}`" alt="product">
+            <h2 x-text="product.title"></h2>
+            <p x-text="product.description"></p>
+            <p><span x-text="product.price"></span>€</p>
+            <button @click="$store.data.addToWishlist(product)">add to Wishlist</button>
+    </div>
+    </template>
     </div>
 </body>
 </html>
