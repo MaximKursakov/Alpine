@@ -25,11 +25,18 @@
         </ol>
     </div>
     <div x-data="{
+        counter: 0,
         filter: '',
-        items : 1
-    }">
+        category : ['livingroom', 'diningroom', 'bedroom'],
+        get filterCategory() {
+            return this.category.filter((item) => {
+                return item.includes(this.filter)
+            })
+        }
+    }"> 
     <input x-model="filter" placeholder="Search..."/>
-    <p>Your Searched Item: <span x-text="filter"></span></p>
+    <p>Your Searched Item: <span x-text="filterCategory"></span></p>
+    <button @click="counter++">next filter</button>
     </div>
 </body>
 </html>
