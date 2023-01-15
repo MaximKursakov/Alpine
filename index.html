@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/alpinejs" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Alpine</title>
+</head>
+<body>
+    
+    <div x-data="{modal : false}" class="menu">
+        <div class="space-y-2" x-show="!modal" @click="modal = true">
+            <div class="w-8 h-0.5 bg-gray-600"></div>
+            <div class="w-8 h-0.5 bg-gray-600"></div>
+            <div class="w-8 h-0.5 bg-gray-600"></div>
+        </div>
+        <ol @click.outside="modal = false" x-cloak x-show="modal">
+            <li @click="modal = false">X</li>
+            <li>test1</li>
+            <li>test2</li>
+            <li>test3</li>
+            <li>test4</li>
+        </ol>
+    </div>
+    <div x-data="{
+        filter: '',
+        items : 1
+    }">
+    <input x-model="filter" placeholder="Search..."/>
+    <p>Your Searched Item: <span x-text="filter"></span></p>
+    </div>
+</body>
+</html>
