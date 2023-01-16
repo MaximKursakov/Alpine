@@ -56,14 +56,29 @@
                         </button>
                         <p class="absolute inset-1 m-auto text-center text-xs top-1/4 opacity-50" x-text="$store.data.basketTotal" x-show="$store.data.basketTotal === 0 ? false : true"></p>
                     </div>
-                    <template  x-for="basketItem in $store.data.basketDuplicates">
-                        <div class="absolute" x-show="basket">
-                            <img x-bind:src="`./src/images/${basketItem.img}`" alt="product">
-                            <p x-text="basketItem.title"></p>
-                            <p x-text="basketItem[basketItem.title]"></p>
-                            <p><span x-text="basketItem.price * basketItem[basketItem.title]"></span>€</p>
+                    <div class="fixed top-0 left-0 w-full" x-show="basket">
+                        <span @click="basket = false" class="h-screen w-screen absolute top-0 left-0 bg-black opacity-70"></span>
+                        <div class="fixed top-0 right-0 w-96 bg-white h-screen">
+                            <template  x-for="basketItem in $store.data.basketDuplicates">
+                                <div class="">
+                                    <p x-text="basketItem.title"></p>
+                                    <div class="flex">
+                                        <img class="w-1/3" x-bind:src="`./src/images/${basketItem.img}`" alt="product">
+                                        <div>
+                                            
+                                            <p><span x-text="basketItem.price"></span>€</p>
+                                            <p class="text-xs tracking-widest" x-text="`${$store.data.pricePerUnit(basketItem)}€/100ML `"></p>
+                                            <div class="flex">
+                                                <button @click="$store.data.removeFromBasket(basketItem)">-</button>
+                                                <p x-text="basketItem[basketItem.title]"></p>
+                                                <button @click="$store.data.addToBasket(basketItem)">+</button>
+                                            </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </template>
                         </div>
-                    </template>
+                    </div>
                 </div>
             </div>
             <!--/ wishlist / basket -->
@@ -75,11 +90,11 @@
         <a class="cursor-pointer">#VSUN</a>
     </nav>
     <h1 class=" text-4xl p flex justify-center mx-auto py-20 tracking-widest">PRODUKTE</h1>
-    <div class="grid grid-cols-3 gap-20 w-full px-10">
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-20 w-full px-10 pb-10">
         <template x-for="product in $store.data.products">
             <div class="w-full">
-                <img class="w-full object-cover w-full aspect-square" x-bind:src="`./src/images/${product.img}`" alt="product">
-                <div class="h-20">
+                <img class="w-full object-cover w-full" x-bind:src="`./src/images/${product.img}`" alt="product">
+                <div style="min-height: 5rem">
                     <div class="flex justify-between border-t pt-3 border-gray-900">
                         <h2 class="font-bold w-1/2 tracking-widest" x-text="product.title"></h2>
                         <p><span class="font-bold tracking-widest" x-text="product.price"></span>€</p>
