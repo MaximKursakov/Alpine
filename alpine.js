@@ -29,6 +29,13 @@ document.addEventListener('alpine:init', () => {
             this.duplicateAmount.push(item)
             this.totalPrice += item.price
         },
+        removeBundle(item) {
+            while(item[item.title] !== 0) {
+                item[item.title]--
+                this.basketTotal--;
+                this.totalPrice -= item.price
+            }
+        },
         removeFromBasket(item) {
             if(item[item.title] > 0) {
                 item[item.title]--;

@@ -26,7 +26,7 @@
             <li>test4</li>
         </ol>
     </div> -->
-    <div x-data=""> 
+    <div x-data="{basket: false}"> 
         <header class="font-bold flex justify-between p-10" style="letter-spacing: .1em;">
             <div class="flex gap-2 ">
                 <button class="tracking-widest cursor-pointer">DE</button>
@@ -35,21 +35,9 @@
             <a class="text-4xl cursor-pointer" style="letter-spacing: .2em;">V.SUN</a>
             <!-- wishlist / basket -->
             <div class="flex gap-2">
-                <div x-data="{wishlist: false}">
-                    <button @click="wishlist = !wishlist">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                        </svg>              
-                    </button>
-                    <template x-for="wishlistItem in $store.data.wishlist">
-                        <div>
-                            <p x-text="wishlistItem.title"></p>
-                        </div>
-                    </template>
-                </div>
-                <div x-data="{basket: false}">
+                <div>
                     <div class="relative w-6 h-6" @click="basket = !basket">
-                        <button class="absolute" class="icon--root icon--bag" >
+                        <button class="absolute" class="" >
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                             </svg>
@@ -58,29 +46,42 @@
                     </div>
                     <div class="fixed top-0 left-0 w-full" x-show="basket">
                         <span @click="basket = false" class="h-screen w-screen absolute top-0 left-0 bg-black opacity-70"></span>
-                        <div x-show="$store.data.totalPrice.toFixed() < 1" class="fixed top-0 right-0 w-96 bg-white h-screen px-3">
+                        <div 
+                        x-show="$store.data.totalPrice.toFixed() < 1" 
+                        class="fixed top-0 right-0 w-96 bg-white h-screen px-3">
                             <h2 class="font-light text-2xl normal-case py-8">Dein Einkaufskorb</h2>
                             <p class="text-center font-light normal-case">Dein Einkaufswagen ist aktuell leer.<br>
                                 <a @click="basket= false" class="border-b border-gray-900 normal-case cursor-pointer">Klicke hier, um weiterzushoppen.</a></p>
                         </div>
-                        <div x-show="$store.data.totalPrice.toFixed() > 1" class="fixed top-0 right-0 w-96 bg-white h-screen px-3">
+                        <div 
+                        
+                        x-show="$store.data.totalPrice.toFixed() > 1" 
+                        class="fixed top-0 right-0 w-96 bg-white h-screen px-3"
+                        x-data="{basket: false}"
+                        x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="transform translate-x-full"
+                        x-transition:enter-end="transform translate-x-0"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="transform translate-x-0"
+                        x-transition:leave-end="transform translate-x-full"
+                        >
                             <h2 class="font-light text-2xl normal-case py-8">Dein Einkaufskorb</h2>
 
-                            <template  x-for="basketItem in $store.data.basketDuplicates">
-                                <div class="border-y">
-                                    <p class="font-light text-xl text-gray-700" x-text="basketItem.title"></p>
+                            <template x-for="basketItem in $store.data.basketDuplicates">
+                                <div x-show="basketItem[basketItem.title] > 0" class="border-y">
+                                    <p class="font-light text-gray-700" x-text="basketItem.title"></p>
                                     <div class="flex items-center">
                                         <img class="w-5/12 object-cover" x-bind:src="`./src/images/${basketItem.img}`" alt="product">
                                         <div class=" flex flex-col items-start gap-1">
                                             
                                             <p class="text-gray-700 font-light"><span class="text-gray-700 font-light" x-text="basketItem.price"></span>€</p>
                                             <p class="text-xs text-gray-700 font-light tracking-widest " x-text="`${$store.data.pricePerUnit(basketItem)}€/100ML `"></p>
-                                            <div class="flex border">
+                                            <div class="flex border my-2">
                                                 <button class="text-gray-700 font-light h-10 px-3" @click="$store.data.removeFromBasket(basketItem)">-</button>
                                                 <div class="flex font-light items-center text-gray-700 h-10 px-3 border-x"><p class="text-center " x-text="basketItem[basketItem.title]"></p></div>
                                                 <button class="text-gray-700 font-light h-10 px-3" @click="$store.data.addToBasket(basketItem)">+</button>
                                             </div>
-                                            <p class="text-xs border-b font-light border-gray-900 text-gray-700">Entfernen</p>
+                                            <p @click="$store.data.removeBundle(basketItem)" class="text-xs border-b font-light border-gray-900 text-gray-700">Entfernen</p>
                                     </div>
                                     </div>
                                 </div>
@@ -92,7 +93,7 @@
                                 <p class="py-4 font-light normal-case text-m"><span class="border-b border-gray-900 font-light text-m">Versandkosten</span> & Die landesübliche MwSt. wird abgeführt</p>
                                 <p class="font-light p-2 text-m normal-case" style="background-color: #e2ffdb; color: #5ea365;">Glückwunsch, deine Bestellung ist in Deutschland & Österreich <span class="font-bold">versandkostenfrei!</span></p>
                                 <button class="w-full bg-gray-900 text-white font-light text-sm py-2 tracking-widest mt-2 mb-4">CHECKOUT</button>
-                                <a class="border-b border-gray-900 font-light text-sm">SHOPPING FORTSETZEN</a>
+                                <a @click="basket= false" class="border-b border-gray-900 font-light text-sm">SHOPPING FORTSETZEN</a>
                             </div>
                         </div>
                     </div>
@@ -117,13 +118,8 @@
                         <p><span class="font-bold tracking-widest" x-text="product.price"></span>€</p>
                     </div>
                     <p class="text-xs tracking-widest" x-text="`BODY ${product.unit}ML (${$store.data.pricePerUnit(product)}€/100ML) `"></p>
-                    <!-- <button @click="$store.data.addToWishlist(product)">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                        </svg>                  
-                    </button> -->
                 </div>
-                <button class="w-full bg-gray-900 text-white font-bold text-xs py-1 tracking-widest" @click="$store.data.addToBasket(product)">IN DEN WARENKORB</button>
+                <button class="w-full bg-gray-900 text-white font-bold text-xs py-1 tracking-widest" @click="$store.data.addToBasket(product); basket= true">IN DEN WARENKORB</button>
         </div>
         </template>
     </div>
