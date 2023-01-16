@@ -13,6 +13,7 @@ document.addEventListener('alpine:init', () => {
         basketTotal: 0,
         basketDuplicates: [],
         duplicateAmount: [],
+        totalPrice : 0,
         checkForDuplicates (item) {
                 if (!this.basketDuplicates.includes(item)) {
                     item[item.title] = 1
@@ -21,18 +22,22 @@ document.addEventListener('alpine:init', () => {
                 else {
                     item[item.title]++
                 }
-                console.log(item)
         },
         addToBasket(item) {
             this.basketTotal++;
             this.checkForDuplicates(item);
             this.duplicateAmount.push(item)
+            this.totalPrice += item.price
         },
         removeFromBasket(item) {
-            item[item.title]--;
+            if(item[item.title] > 0) {
+                item[item.title]--;
             this.basketTotal--;
+            this.totalPrice -= item.price
+            }
         },
-        // es wird der basket durchgegangen. 
+        getTotalPrice() {  
+        },
         products: [{
             title: "Vitamin B Creme",
             img: `Product1.png`,

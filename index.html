@@ -60,6 +60,7 @@
                         <span @click="basket = false" class="h-screen w-screen absolute top-0 left-0 bg-black opacity-70"></span>
                         <div class="fixed top-0 right-0 w-96 bg-white h-screen px-3">
                             <h2 class="font-light text-2xl normal-case py-8">Dein Einkaufskorb</h2>
+
                             <template  x-for="basketItem in $store.data.basketDuplicates">
                                 <div class="border-y">
                                     <p class="font-light text-xl text-gray-700" x-text="basketItem.title"></p>
@@ -79,6 +80,15 @@
                                     </div>
                                 </div>
                             </template>
+
+                            <div class="py-8">
+                                <h2 class="font-light normal-case">Summe</h2>
+                                <p class="font-light normal-case"><span class="font-light normal-case" x-text="Math.abs($store.data.totalPrice.toFixed(2))"></span>EUR</p>
+                                <p class="py-4 font-light normal-case text-m"><span class="border-b border-gray-900 font-light text-m">Versandkosten</span> & Die landesübliche MwSt. wird abgeführt</p>
+                                <p class="font-light p-2 text-m normal-case" style="background-color: #e2ffdb; color: #5ea365;">Glückwunsch, deine Bestellung ist in Deutschland & Österreich <span class="font-bold">versandkostenfrei!</span></p>
+                                <button class="w-full bg-gray-900 text-white font-light text-sm py-2 tracking-widest mt-2 mb-4">CHECKOUT</button>
+                                <a class="border-b border-gray-900 font-light text-sm">SHOPPING FORTSETZEN</a>
+                            </div>
                         </div>
                     </div>
                 </div>
