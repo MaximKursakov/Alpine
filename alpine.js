@@ -13,7 +13,6 @@ document.addEventListener('alpine:init', () => {
         },
         removeFromBasket(item) {
             for(let i = 0; i <= this.basket.length; i++) {
-                console.log(item.title === this.basket[i].title)
                 if (item.title === this.basket[i].title) {
                     this.basket.splice(i, 1);
                     break;

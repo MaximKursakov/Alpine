@@ -36,19 +36,23 @@
         }
     }"> 
     <input x-model="filter" placeholder="Search..."/>
-    <h2>Wishlist</h2>
-    <template x-for="wishlistItem in $store.data.wishlist">
-        <div>
-            <p x-text="wishlistItem.title"></p>
-        </div>
-    </template>
-    <h2>Basket</h2>
-    <template x-for="basketItem in $store.data.basket">
-        <div>
-            <p x-text="basketItem.title"></p>
-        </div>
-    </template>
-    <!-- <button @click="$store.data.addToWishlist()">add to wishlist</button> -->
+    <div x-data="{wishlist: false}">
+        <h2 @click="wishlist = !wishlist">Wishlist</h2>
+        <template x-for="wishlistItem in $store.data.wishlist">
+            <div>
+                <p x-text="wishlistItem.title"></p>
+            </div>
+        </template>
+    </div>
+    <div x-data="{basket: false}">
+        <h2 @click="basket = !basket">Basket</h2>
+        <p x-text="$store.data.basket.length" x-show="$store.data.basket.length === 0 ? false : true"></p>
+        <template  x-for="basketItem in $store.data.basket">
+            <div>
+                <p x-show="basket" x-text="basketItem.title"></p>
+            </div>
+        </template>
+    </div>
     <template x-for="product in $store.data.products">
         <div>
             <img x-bind:src="`./src/images/${product.img}`" alt="product">
