@@ -58,7 +58,12 @@
                     </div>
                     <div class="fixed top-0 left-0 w-full" x-show="basket">
                         <span @click="basket = false" class="h-screen w-screen absolute top-0 left-0 bg-black opacity-70"></span>
-                        <div class="fixed top-0 right-0 w-96 bg-white h-screen px-3">
+                        <div x-show="$store.data.totalPrice.toFixed() < 1" class="fixed top-0 right-0 w-96 bg-white h-screen px-3">
+                            <h2 class="font-light text-2xl normal-case py-8">Dein Einkaufskorb</h2>
+                            <p class="text-center font-light normal-case">Dein Einkaufswagen ist aktuell leer.<br>
+                                <a @click="basket= false" class="border-b border-gray-900 normal-case cursor-pointer">Klicke hier, um weiterzushoppen.</a></p>
+                        </div>
+                        <div x-show="$store.data.totalPrice.toFixed() > 1" class="fixed top-0 right-0 w-96 bg-white h-screen px-3">
                             <h2 class="font-light text-2xl normal-case py-8">Dein Einkaufskorb</h2>
 
                             <template  x-for="basketItem in $store.data.basketDuplicates">
