@@ -8,8 +8,16 @@ document.addEventListener('alpine:init', () => {
         }
         },
         basket: [],
+        basketDuplicates: [],
+        checkForDuplicates (item) {
+            console.log(this.basketDuplicates[0])
+                if (!this.basketDuplicates.includes(item)) {
+                    this.basketDuplicates.push(item)
+                }
+        },
         addToBasket(item) {
             this.basket.push(item);
+            this.checkForDuplicates(item)
         },
         removeFromBasket(item) {
             for(let i = 0; i <= this.basket.length; i++) {
@@ -17,7 +25,7 @@ document.addEventListener('alpine:init', () => {
                     this.basket.splice(i, 1);
                     break;
                 }
-            }
+            };
         },
         products: [{
             title: "Vitamin B Creme",

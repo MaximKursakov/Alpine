@@ -47,9 +47,10 @@
     <div x-data="{basket: false}">
         <h2 @click="basket = !basket">Basket</h2>
         <p x-text="$store.data.basket.length" x-show="$store.data.basket.length === 0 ? false : true"></p>
-        <template  x-for="basketItem in $store.data.basket">
-            <div>
-                <p x-show="basket" x-text="basketItem.title"></p>
+        <template  x-for="basketItem in $store.data.basketDuplicates">
+            <div x-show="basket">
+                <img x-bind:src="`./src/images/${basketItem.img}`" alt="product">
+                <p x-text="basketItem.title"></p>
             </div>
         </template>
     </div>
