@@ -52,6 +52,7 @@
                 <img x-bind:src="`./src/images/${basketItem.img}`" alt="product">
                 <p x-text="basketItem.title"></p>
                 <p x-text="basketItem[basketItem.title]"></p>
+                <p><span x-text="basketItem.price * basketItem[basketItem.title]"></span>€</p>
             </div>
         </template>
     </div>
@@ -59,7 +60,7 @@
         <div>
             <img x-bind:src="`./src/images/${product.img}`" alt="product">
             <h2 x-text="product.title"></h2>
-            <p x-text="product.description"></p>
+            <p x-text="`BODY ${product.unit}ML (${$store.data.pricePerUnit(product)}€/100ML) `"></p>
             <p><span x-text="product.price"></span>€</p>
             <button @click="$store.data.addToWishlist(product)">add to Wishlist</button>
             <button @click="$store.data.addToBasket(product)">add to Basket</button>
